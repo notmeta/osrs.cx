@@ -2,10 +2,9 @@ package command
 
 import (
 	"fmt"
+	"github.com/bwmarrin/discordgo"
 	"sort"
 	"strconv"
-
-	"github.com/bwmarrin/discordgo"
 )
 
 // Help function provides a build in "help" command that will display a list
@@ -36,7 +35,7 @@ func (m *Mux) Help(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 		}
 
 		// Calculate the max length of command+args string
-		l := len(v.Pattern) // TODO: Add the +args part :)
+		l := len(v.JoinedPatterns) // TODO: Add the +args part :)
 		if l > maxlen {
 			maxlen = l
 		}
@@ -53,7 +52,6 @@ func (m *Mux) Help(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 
 	sort.Strings(keys)
 
-	// TODO: Learn more link needs to be configurable
 	resp := "\n*Commands can be abbreviated and mixed with other text.*\n"
 	resp += "```yml\n"
 
@@ -70,7 +68,7 @@ func (m *Mux) Help(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 	// Add sorted result to help msg
 	for _, k := range keys {
 		v := cmdmap[k]
-		resp += fmt.Sprintf("%s%-"+strconv.Itoa(maxlen)+"s # %s\n", cp, v.Pattern+v.Help, v.Description)
+		resp += fmt.Sprintf("%s%-"+strconv.Itoa(maxlen)+"s # %s\n", cp, v.JoinedPatterns+v.Help, v.Description)
 	}
 
 	resp += "```\n"

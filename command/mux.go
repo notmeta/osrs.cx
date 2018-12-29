@@ -11,10 +11,12 @@ import (
 
 // Route holds information about a specific message route handler
 type Route struct {
-	Pattern     string      // match pattern that should trigger this route handler
-	Description string      // short description of this route
-	Help        string      // detailed help string for this route
-	Run         HandlerFunc // route handler function to call
+	Pattern        string      // match pattern that should trigger this route handler
+	Aliases        []string    // pattern aliases
+	Description    string      // short description of this route
+	Help           string      // detailed help string for this route
+	Run            HandlerFunc // route handler function to call
+	JoinedPatterns string
 }
 
 // Context holds a bit of extra data we pass along to route handlers
@@ -47,12 +49,14 @@ func New() *Mux {
 }
 
 // Route allows you to register a route
-func (m *Mux) Route(pattern, desc string, cb HandlerFunc) (*Route, error) {
+func (m *Mux) Route(pattern, desc string, cb HandlerFunc, aliases ...string) (*Route, error) {
 
 	r := Route{}
 	r.Pattern = pattern
+	r.Aliases = aliases
 	r.Description = desc
 	r.Run = cb
+	r.JoinedPatterns = strings.Join(append([]string{r.Pattern}, r.Aliases...), "|")
 	m.Routes = append(m.Routes, &r)
 
 	return &r, nil
@@ -78,18 +82,23 @@ func (m *Mux) FuzzyMatch(msg string) (*Route, []string) {
 
 		for _, rv := range m.Routes {
 
-			// If we find an exact match, return that immediately.
-			if rv.Pattern == fv {
-				return rv, fields[fk:]
-			}
+			patterns := append([]string{rv.Pattern}, rv.Aliases...)
 
-			// Some "Fuzzy" searching...
-			if strings.HasPrefix(rv.Pattern, fv) {
-				if len(fv) > rank {
-					r = rv
-					rank = len(fv)
+			for _, pattern := range patterns {
+				// If we find an exact match, return that immediately.
+				if pattern == fv {
+					return rv, fields[fk:]
+				}
+
+				// Some "Fuzzy" searching...
+				if strings.HasPrefix(pattern, fv) {
+					if len(fv) > rank {
+						r = rv
+						rank = len(fv)
+					}
 				}
 			}
+
 		}
 	}
 	return r, fields[fk:]

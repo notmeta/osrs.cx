@@ -1,10 +1,6 @@
 package main
 
-import "command"
-
-// This file adds the Disgord message route multiplexer, aka "command router".
-// to the Disgord bot. This is an optional addition however it is included
-// by default to demonstrate how to extend the Disgord bot.
+import "github.com/notmeta/osrs.cx/command"
 
 // Router is registered as a global variable to allow easy access to the
 // multiplexer throughout the bot.
@@ -20,7 +16,7 @@ func init() {
 	Session.AddHandler(Router.OnMessageCreate)
 
 	// Register the build-in help command.
-	_, _ = Router.Route("help", "Display this message.", Router.Help)
+	_, _ = Router.Route("help", "Display this message.", Router.Help, "commands")
 	_, _ = Router.Route("invite", "PMs a link to invite this bot to your server.", Router.Invite)
 	_, _ = Router.Route("ping", "Pong!", Router.Ping)
 }
