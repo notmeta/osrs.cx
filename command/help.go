@@ -60,11 +60,6 @@ func (m *Mux) Help(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 		keys = append([]string{v.Pattern}, keys...)
 	}
 
-	v, ok = cmdmap["about"]
-	if ok {
-		keys = append([]string{v.Pattern}, keys...)
-	}
-
 	// Add sorted result to help msg
 	for _, k := range keys {
 		v := cmdmap[k]
