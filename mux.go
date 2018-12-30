@@ -19,4 +19,5 @@ func init() {
 	_, _ = Router.Route("help", "Display this message.", Router.Help, "commands")
 	_, _ = Router.Route("invite", "PMs a link to invite this bot to your server.", Router.Invite)
 	_, _ = Router.Route("ping", "Pong!", Router.Ping)
+	_, _ = Router.Route("stats", "Get hiscores for a given account.", Router.Stats, "hiscores", "hs")
 }
