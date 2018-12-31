@@ -245,7 +245,7 @@ func GetHiscoreEmoji(index int) (emoji string) {
 	case magic:
 		return "<:magic:529105287861501989>"
 	case cooking:
-		return "<:cooking:529105287706312704>🍳"
+		return "<:cooking:529105287706312704>"
 	case woodcutting:
 		return "<:woodcutting:529105287681015831>"
 	case fletching:
@@ -275,7 +275,7 @@ func GetHiscoreEmoji(index int) (emoji string) {
 	case hunter:
 		return "<:hunter:529105287601455119>"
 	case construction:
-		return "<:construction:529105287651786753>🚧"
+		return "<:construction:529105287651786753>"
 	case bhhunter:
 		return "<:bh_hunter:529105998980448256>"
 	case bhrogue:
