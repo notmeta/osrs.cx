@@ -3,7 +3,7 @@ package command
 import (
 	"fmt"
 	"github.com/bwmarrin/discordgo"
-	"github.com/notmeta/osrs.cx/util"
+	"github.com/notmeta/osrs.cx/model"
 	"io/ioutil"
 	"net/http"
 	"runtime"
@@ -15,8 +15,8 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 
 	username := strings.Join(ctx.Fields[1:], "+")
 
-	apiUrl := util.GetHiscoresApiUrl(&username)
-	friendlyUrl := util.GetFriendlyHiscoresUrl(&username)
+	apiUrl := model.GetHiscoresApiUrl(&username)
+	friendlyUrl := model.GetFriendlyHiscoresUrl(&username)
 
 	msg, _ := ds.ChannelMessageSendEmbed(dm.ChannelID, &discordgo.MessageEmbed{
 		Timestamp: time.Now().Format(time.RFC3339),
@@ -24,6 +24,7 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 			Text: "osrs.cx",
 		},
 		Description: fmt.Sprintf("Getting stats for `%s`...", username),
+		Color:       0xFFFF00,
 	})
 
 	client := &http.Client{}
@@ -51,8 +52,7 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 		statsResponse.Color = 0xFF0000
 	} else {
 		body := string(body)
-		hiscore := util.ParseHiscore(&username, &body)
-		embed := util.GenerateHiscoresEmbed(hiscore)
+		embed := model.ParseHiscore(&username, &body).GenerateHiscoresEmbed()
 
 		statsResponse = embed
 	}
