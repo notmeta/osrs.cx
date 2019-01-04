@@ -44,7 +44,6 @@ type Mux struct {
 // New returns a new Discord message route mux
 func New() *Mux {
 	m := &Mux{}
-	m.Prefix = "-dg "
 	return m
 }
 

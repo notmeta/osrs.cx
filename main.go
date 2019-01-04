@@ -60,7 +60,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	_ = Session.UpdateStatus(0, "::help | osrs.cx")
+	_ = Session.UpdateStatus(0, Router.Prefix+"help | osrs.cx")
 
 	// Wait for a CTRL-C
 	log.Printf(`Now running. Press CTRL-C to exit.`)

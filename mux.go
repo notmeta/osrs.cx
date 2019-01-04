@@ -1,6 +1,9 @@
 package main
 
-import "github.com/notmeta/osrs.cx/command"
+import (
+	"github.com/notmeta/osrs.cx/command"
+	"os"
+)
 
 // Router is registered as a global variable to allow easy access to the
 // multiplexer throughout the bot.
@@ -9,7 +12,11 @@ var Router = command.New()
 const DefaultPrefix = "::"
 
 func init() {
-	Router.Prefix = DefaultPrefix
+	if os.Getenv("PREFIX") != "" {
+		Router.Prefix = os.Getenv("PREFIX")
+	} else {
+		Router.Prefix = DefaultPrefix
+	}
 
 	// Register the mux OnMessageCreate handler that listens for and processes
 	// all messages received.
@@ -21,4 +28,5 @@ func init() {
 	_, _ = Router.Route("ping", "", Router.Ping)
 	_, _ = Router.Route("stats", "Get hiscores for a given account.", Router.Stats, "hiscores", "hs")
 	_, _ = Router.Route("github", "", Router.Github)
+	_, _ = Router.Route("meta", "Meta statistics for the bot.", Router.Meta)
 }
