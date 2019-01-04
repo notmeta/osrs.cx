@@ -2,7 +2,6 @@ language: go
 
 go:
   - "1.10"
-  - master
 
 after_success:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
