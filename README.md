@@ -1,0 +1,2 @@
+[![Travis](https://travis-ci.org/notmeta/osrs.cx.svg?branch=master)](https://travis-ci.org/notmeta/osrs.cx)
+[![Discord](https://img.shields.io/discord/529101511943520256.svg)](https://discord.gg/7ZueyGh)
