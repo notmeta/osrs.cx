@@ -1,19 +1,44 @@
 language: go
+
 go:
-  - '1.10'
+  - '1.10.x'
+
 after_success:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - "./send.sh success $WEBHOOK_URL"
+
 after_failure:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - "./send.sh failure $WEBHOOK_URL"
+
+before_install:
+  # gox simplifies building for multiple architectures
+  - go get github.com/mitchellh/gox
+
+install:
+  - # skip
+
+script:
+  - go get -t -v ./...
+  - diff -u <(echo -n) <(gofmt -d .)
+  - go vet $(go list ./... | grep -v /vendor/)
+  - go test -v -race ./...
+  # Only build binaries from the latest Go release.
+  - if [ "${LATEST}" = "true" ]; then gox -os="linux darwin windows" -arch="amd64" -output="osrs.cx.." -ldflags "-X main.Rev=`git rev-parse --short HEAD`" -verbose ./...; fi
+
 deploy:
   provider: releases
   api_key:
     secure: R76qT0G++2C1LU3kb45U1KQ7YkY/8PM4IrhPm8Q2dZsJfdbuvbgeHZ9qVBA1fLbqnp4cgHWmmvR0qSijYqtpfwl6vpZQfveUFRDmdtgMaenbe0cw4NRRhh8NO4WGLWhRJmwmfs0urrcVI7gZUfsMqKccffhIDVCRPDQlhMSfn587jri9KvXRMn8XqpVSCpHMs4h3+VR2K3h48WH9kjestnXZkiOCoSgCrDUT6QbYfqPeVrFZ7hW28vYTSOYciAkIvoubATwwE4qS7ne3oe/8lyPJ5iZ9mkFuJJI5HZBEffnksdkXDkVQa0HivSVf3i0f9wL7AiEnSqCOgSzGf+CwLQIM1J0jsUveCLnZuz8bBsscMPxD7xgGoJD7tRC/Iw598ccXw7Wg/DpZiKfZEfGwtMbC0lhKx5hU9zh4rERVyBA7vwi0Wl/uMOEhv5FbId/1DogsTHxucfGo2RDIz3GYXVDVKHs34x6WGo2h6eBIQEsRq2GGtG9ILbZOqlt2gj1a66aNMcAtrAKPjEfhSo6ApydDpqpGznxdeXKrrQoK6Nk3iwrCp2wQk3yukK1WeoriE08jUuUZxHr5lu+vvy6xrp4PtBZWbU3YAxtKmtkNNPdpZHIGIkLjWCY48zIC8JMgSXDT9KyL8LwicznU5+vHdNeu4/PGtxHBD5Suo9T05IQ=
-  file: osrs.cx
+  file:
+    # The names of the binaries to output, based on the -output template passed to gox.
+    - osrs.cx.windows.amd64.exe
+    - osrs.cx.darwin.amd64
+    - osrs.cx.linux.amd64
   on:
+    repo: notmeta/osrs.cx
     tags: true
+    condition: $LATEST = true
   skip_cleanup: true
