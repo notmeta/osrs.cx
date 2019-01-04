@@ -32,8 +32,12 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 	req, _ := http.NewRequest("GET", *apiUrl, nil)
 	req.Header.Add("User-Agent", fmt.Sprintf("osrs.cx/%s (+https://github.com/notmeta/osrs.cx)", runtime.Version()))
 
-	resp, _ := client.Do(req)
-	defer resp.Body.Close()
+	resp, err := client.Do(req)
+
+	if err == nil {
+		defer resp.Body.Close()
+	}
+
 	body, _ := ioutil.ReadAll(resp.Body)
 
 	statsResponse := &discordgo.MessageEmbed{
