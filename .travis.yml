@@ -1,7 +1,19 @@
 language: go
 
-go:
-  - '1.10.x'
+matrix:
+  include:
+    # "1.x" always refers to the latest Go version, inc. the patch release.
+    # e.g. "1.x" is 1.11 until 1.11.1 is available.
+    - go: 1.x
+      env: LATEST=true
+    - go: 1.7.x
+    - go: 1.8.x
+    - go: 1.9.x
+    - go: 1.10.x
+    - go: 1.11.x
+    - go: tip
+  allow_failures:
+    - go: tip
 
 after_success:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
@@ -38,5 +50,7 @@ deploy:
     - osrs.cx.darwin.amd64
     - osrs.cx.linux.amd64
   on:
+    repo: notmeta/osrs.cx
     tags: true
+    condition: $LATEST = true
   skip_cleanup: true
