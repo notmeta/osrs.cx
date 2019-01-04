@@ -38,7 +38,5 @@ deploy:
     - osrs.cx.darwin.amd64
     - osrs.cx.linux.amd64
   on:
-    repo: notmeta/osrs.cx
     tags: true
-    condition: $LATEST = true
   skip_cleanup: true
