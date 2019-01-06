@@ -227,7 +227,7 @@ func GetHiscoreEmoji(index int) (emoji string) {
 func (hs *Hiscore) GenerateHiscoresEmbed() (embed *discordgo.MessageEmbed) {
 	embed = &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{
-			Name: hs.Username,
+			Name: *hs.GetFriendlyUsername(),
 			URL:  *GetFriendlyHiscoresUrl(&hs.Username),
 		},
 		Timestamp: time.Now().Format(time.RFC3339),
@@ -363,6 +363,11 @@ func ParseHiscoreLines(username *string, lines *[]string) (hs *Hiscore) {
 	}
 
 	return hs
+}
+
+func (hs *Hiscore) GetFriendlyUsername() *string {
+	username := strings.Replace(hs.Username, "+", " ", -1)
+	return &username
 }
 
 func GetHiscoresApiUrl(username *string) *string {

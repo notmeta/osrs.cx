@@ -23,7 +23,7 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 		Footer: &discordgo.MessageEmbedFooter{
 			Text: "osrs.cx",
 		},
-		Description: fmt.Sprintf("Getting stats for `%s`...", username),
+		Description: fmt.Sprintf("Getting stats for `%s`...", strings.Replace(username, "+", " ", -1)),
 		Color:       0xFFFF00,
 	})
 
