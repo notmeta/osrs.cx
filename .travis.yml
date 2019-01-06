@@ -1,5 +1,8 @@
 language: go
 
+notifications:
+  email: false
+
 matrix:
   include:
     # "1.x" always refers to the latest Go version, inc. the patch release.
