@@ -29,4 +29,5 @@ func init() {
 	_, _ = Router.Route("stats", "Get hiscores for a given account.", Router.Stats, "hiscores", "hs")
 	_, _ = Router.Route("github", "", Router.Github)
 	_, _ = Router.Route("meta", "Meta statistics for the bot.", Router.Meta)
+	_, _ = Router.Route("update", "Updates a specified user's CML stats.", Router.Update)
 }
