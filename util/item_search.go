@@ -37,11 +37,11 @@ func SearchItem(query string) ItemSearchResult {
 }
 
 func (item *Item) GetIconUrl() string {
-	return fmt.Sprintf("%sitem/%d/icon", RuneliteApiUrl(), item.Id)
+	return fmt.Sprintf("%sitem/icon/%d.png", runeliteSRNUrl, item.Id)
 }
 
 func (item *Item) GetLargeIconUrl() string {
-	return fmt.Sprintf("%sitem/%d/icon/large", RuneliteApiUrl(), item.Id)
+	return fmt.Sprintf("http://services.runescape.com/m=itemdb_oldschool/1549538991370_obj_big.gif?id=%d", item.Id)
 }
 
 func (item *Item) GetOSBPrice() OsbPrice {

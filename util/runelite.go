@@ -7,6 +7,7 @@ import (
 
 const runeliteBootstrapUrl = "https://static.runelite.net/bootstrap.json"
 const runeliteApiUrl = "https://api.runelite.net/runelite-%s/"
+const runeliteSRNUrl = "https://static.runelite.net/cache/"
 
 type bootstrap struct {
 	Client client
