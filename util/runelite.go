@@ -16,6 +16,7 @@ type client struct {
 	Version string
 }
 
+// TODO cache this (and version) to prevent unnecessary requests
 func RuneliteApiUrl() (url string) {
 	return fmt.Sprintf(runeliteApiUrl, LatestRuneliteVersion())
 }

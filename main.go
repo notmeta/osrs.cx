@@ -30,7 +30,6 @@ func init() {
 }
 
 func main() {
-
 	// Declare any variables needed later.
 	var err error
 

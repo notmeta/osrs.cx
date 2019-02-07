@@ -17,6 +17,13 @@ type Item struct {
 	Type        string
 }
 
+type OsbPrice struct {
+	ItemId         int `json:"item_id"`
+	BuyAverage     int `json:"buy_average"`
+	SellAverage    int `json:"sell_average"`
+	OverallAverage int `json:"overall_average"`
+}
+
 func SearchItem(query string) ItemSearchResult {
 	query = strings.Replace(query, " ", "+", -1)
 	url := fmt.Sprintf("%sitem/search?query=%s", RuneliteApiUrl(), query)
@@ -31,4 +38,18 @@ func SearchItem(query string) ItemSearchResult {
 
 func (item *Item) GetIconUrl() string {
 	return fmt.Sprintf("%sitem/%d/icon", RuneliteApiUrl(), item.Id)
+}
+
+func (item *Item) GetLargeIconUrl() string {
+	return fmt.Sprintf("%sitem/%d/icon/large", RuneliteApiUrl(), item.Id)
+}
+
+func (item *Item) GetOSBPrice() OsbPrice {
+	url := fmt.Sprintf("%s/osb/ge?itemId=%d", RuneliteApiUrl(), item.Id)
+	body, _ := GetBody(&url)
+
+	price := OsbPrice{}
+	_ = json.Unmarshal(body, &price)
+
+	return price
 }

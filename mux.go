@@ -30,4 +30,5 @@ func init() {
 	_, _ = Router.Route("github", "", Router.Github)
 	_, _ = Router.Route("meta", "Meta statistics for the bot.", Router.Meta)
 	_, _ = Router.Route("update", "Updates a specified user's CML stats.", Router.Update)
+	_, _ = Router.Route("price", "Find the exchange price of an item.", Router.Price)
 }
