@@ -30,4 +30,4 @@ build:
 	go build
 
 run:
-	./osrs.cx -t "$(TOKEN)"
+	nohup ./osrs.cx -t "$(TOKEN)" &
