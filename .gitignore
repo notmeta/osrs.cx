@@ -14,3 +14,6 @@
 *.out
 go.mod
 go.sum
+
+/.token
+/.local_token
