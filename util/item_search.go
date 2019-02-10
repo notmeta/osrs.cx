@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 )
 
 type ItemSearchResult struct {
@@ -23,6 +24,8 @@ type OsbPrice struct {
 	SellAverage    int `json:"sell_average"`
 	OverallAverage int `json:"overall_average"`
 }
+
+const priceKeyFormat = "price:%d"
 
 func SearchItem(query string) ItemSearchResult {
 	query = strings.Replace(query, " ", "+", -1)
@@ -45,11 +48,22 @@ func (item *Item) GetLargeIconUrl() string {
 }
 
 func (item *Item) GetOSBPrice() OsbPrice {
-	url := fmt.Sprintf("%s/osb/ge?itemId=%d", RuneliteApiUrl(), item.Id)
-	body, _ := GetBody(&url)
-
 	price := OsbPrice{}
-	_ = json.Unmarshal(body, &price)
+
+	key := fmt.Sprintf(priceKeyFormat, item.Id)
+	cachedPrice, _ := Store.Get(key).Result()
+
+	var jsonPrice []byte
+
+	if len(cachedPrice) > 0 {
+		jsonPrice = []byte(cachedPrice)
+	} else {
+		url := fmt.Sprintf("%s/osb/ge?itemId=%d", RuneliteApiUrl(), item.Id)
+		jsonPrice, _ = GetBody(&url)
+		_ = Store.Set(key, string(jsonPrice), 20*time.Minute).Err()
+	}
+
+	_ = json.Unmarshal(jsonPrice, &price)
 
 	return price
 }
