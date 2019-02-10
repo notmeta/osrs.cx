@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
+	"github.com/notmeta/osrs.cx/util"
 	"log"
 	"os"
 	"os/signal"
@@ -21,7 +22,6 @@ var Session, _ = discordgo.New()
 // Read in all configuration options from both environment variables and
 // command line arguments.
 func init() {
-
 	// Discord Authentication Token
 	Session.Token = os.Getenv("DG_TOKEN")
 	if Session.Token == "" {
@@ -35,7 +35,6 @@ func main() {
 
 	// Print out a fancy logo!
 	fmt.Printf(`
-
  ██████╗ ███████╗██████╗ ███████╗    ██████╗██╗  ██╗
 ██╔═══██╗██╔════╝██╔══██╗██╔════╝   ██╔════╝╚██╗██╔╝
 ██║   ██║███████╗██████╔╝███████╗   ██║      ╚███╔╝ 
@@ -60,6 +59,9 @@ func main() {
 	}
 
 	_ = Session.UpdateStatus(0, Router.Prefix+"help | osrs.cx")
+
+	// Connect to local redis container
+	util.StoreInit()
 
 	// Wait for a CTRL-C
 	log.Printf(`Now running. Press CTRL-C to exit.`)

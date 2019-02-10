@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"github.com/notmeta/osrs.cx/model"
+	"github.com/notmeta/osrs.cx/util"
 	"io/ioutil"
-	"net/http"
-	"runtime"
 	"strings"
 	"time"
 )
@@ -14,6 +13,15 @@ import (
 func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 
 	username := strings.Join(ctx.Fields[1:], "+")
+
+	if len(username) == 0 {
+		username = util.GetRsn(dm.Author)
+
+		if len(username) == 0 {
+			_, _ = ds.ChannelMessageSend(dm.ChannelID, "Please specify a username, or set one with `::setrsn [username]`")
+			return
+		}
+	}
 
 	apiUrl := model.GetHiscoresApiUrl(&username)
 	friendlyUrl := model.GetFriendlyHiscoresUrl(&username)
@@ -27,12 +35,7 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 		Color:       0xFFFF00,
 	})
 
-	client := &http.Client{}
-
-	req, _ := http.NewRequest("GET", *apiUrl, nil)
-	req.Header.Add("User-Agent", fmt.Sprintf("osrs.cx/%s (+https://github.com/notmeta/osrs.cx)", runtime.Version()))
-
-	resp, err := client.Do(req)
+	resp, err := util.Get(apiUrl)
 
 	if err == nil {
 		defer resp.Body.Close()
