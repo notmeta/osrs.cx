@@ -2,22 +2,18 @@ package command
 
 import (
 	"github.com/bwmarrin/discordgo"
-	"strconv"
+	"github.com/notmeta/osrs.cx/util"
 	"time"
 )
 
 func (m *Mux) Meta(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 
-	uniqueMembers := make(map[string]bool)
+	totalMembers := 0
 	totalChannels := 0
 
 	for _, guild := range ds.State.Guilds {
 		totalChannels += len(guild.Channels)
-
-		for _, member := range guild.Members {
-			uniqueMembers[member.User.ID] = true
-		}
-
+		totalMembers += guild.MemberCount
 	}
 
 	resp := &discordgo.MessageEmbed{
@@ -32,18 +28,18 @@ func (m *Mux) Meta(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 		},
 		Fields: []*discordgo.MessageEmbedField{
 			{
-				Name:   "Guilds",
-				Value:  strconv.Itoa(len(ds.State.Guilds)),
+				Name:   "Servers",
+				Value:  util.RenderInteger("#,###.", len(ds.State.Guilds)),
 				Inline: true,
 			},
 			{
-				Name:   "Unique Users",
-				Value:  strconv.Itoa(len(uniqueMembers)),
+				Name:   "Users",
+				Value:  util.RenderInteger("#,###.", totalMembers),
 				Inline: true,
 			},
 			{
 				Name:   "Channels",
-				Value:  strconv.Itoa(totalChannels),
+				Value:  util.RenderInteger("#,###.", totalChannels),
 				Inline: true,
 			},
 		},
