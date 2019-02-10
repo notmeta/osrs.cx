@@ -3,7 +3,7 @@ DOCKER_CONTAINER_NAME="cx.store"
 
 
 docker_run:
-	docker run  -v /docker/redis-data:/data \
+	docker run -p 6379:6379 -v /docker/redis-data:/data \
       --name $(DOCKER_CONTAINER_NAME) -d redis \
       redis-server --appendonly yes
 
