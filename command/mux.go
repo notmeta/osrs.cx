@@ -111,8 +111,8 @@ func (m *Mux) OnMessageCreate(ds *discordgo.Session, mc *discordgo.MessageCreate
 
 	var err error
 
-	// Ignore all messages created by the Bot account itself
-	if mc.Author.ID == ds.State.User.ID {
+	// Ignore all messages created by the Bot account itself and other bots
+	if mc.Author.ID == ds.State.User.ID || mc.Author.Bot {
 		return
 	}
 
