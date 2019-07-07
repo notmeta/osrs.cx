@@ -51,6 +51,9 @@ func main() {
 		return
 	}
 
+	// Connect to local redis container
+	util.StoreInit()
+
 	// Open a websocket connection to Discord
 	err = Session.Open()
 	if err != nil {
@@ -59,9 +62,6 @@ func main() {
 	}
 
 	_ = Session.UpdateStatus(0, Router.Prefix+"help | osrs.cx")
-
-	// Connect to local redis container
-	util.StoreInit()
 
 	// Wait for a CTRL-C
 	log.Printf(`Now running. Press CTRL-C to exit.`)
