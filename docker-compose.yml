@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  redis_db:
+    image: redis
+    command: redis-server --appendonly yes
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - /docker/redis-data:/data
+  bot:
+    build: .
+    links:
+      - redis_db
+    environment:
+      #      - DG_TOKEN=
+      - REDIS_IP=redis_db

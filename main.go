@@ -27,6 +27,10 @@ func init() {
 	if Session.Token == "" {
 		flag.StringVar(&Session.Token, "t", "", "Discord Authentication Token")
 	}
+	util.RedisIp = os.Getenv("REDIS_IP")
+	if util.RedisIp == "" {
+		flag.StringVar(&util.RedisIp, "redis", "localhost", "Redis Store IP Address")
+	}
 }
 
 func main() {

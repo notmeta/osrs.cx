@@ -5,19 +5,36 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/go-redis/redis"
 	"log"
+	"time"
 )
 
 var Store *redis.Client
+var RedisIp string
 
 const RsnKeyFormat = "rsn:%s"
 
 func StoreInit() {
 	Store = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     RedisIp + ":6379",
 		Password: "",
 		DB:       0,
 	})
-	_, err := Store.Ping().Result()
+
+	var err error
+	pingAttempts := 0
+
+	for pingAttempts < 5 {
+		_, err = Store.Ping().Result()
+
+		if err != nil {
+			log.Printf("Ping failed, waiting and trying again")
+			pingAttempts += 1
+			time.Sleep(5 * time.Second)
+		} else {
+			break
+		}
+	}
+
 	if err != nil {
 		log.Fatalf("Failed to connect to local redis container!\n%s", err)
 	} else {
