@@ -39,40 +39,41 @@ const (
 )
 
 const (
-	Overall      = 0
-	Attack       = 1
-	Defence      = 2
-	Strength     = 3
-	Hitpoints    = 4
-	Ranged       = 5
-	Prayer       = 6
-	Magic        = 7
-	Cooking      = 8
-	Woodcutting  = 9
-	Fletching    = 10
-	Fishing      = 11
-	Firemaking   = 12
-	Crafting     = 13
-	Smithing     = 14
-	Mining       = 15
-	Herblore     = 16
-	Agility      = 17
-	Thieving     = 18
-	Slayer       = 19
-	Farming      = 20
-	Runecraft    = 21
-	Hunter       = 22
-	Construction = 23
-	Bhhunter     = 24
-	Bhrogue      = 25
-	Cluesall     = 26
-	Clueseasy    = 27
-	Cluesmedium  = 28
-	Clueshard    = 29
-	Clueselite   = 30
-	Cluesmaster  = 31
-	Lmsrank      = 32
-	Offset       = Bhhunter
+	Overall       = 0
+	Attack        = 1
+	Defence       = 2
+	Strength      = 3
+	Hitpoints     = 4
+	Ranged        = 5
+	Prayer        = 6
+	Magic         = 7
+	Cooking       = 8
+	Woodcutting   = 9
+	Fletching     = 10
+	Fishing       = 11
+	Firemaking    = 12
+	Crafting      = 13
+	Smithing      = 14
+	Mining        = 15
+	Herblore      = 16
+	Agility       = 17
+	Thieving      = 18
+	Slayer        = 19
+	Farming       = 20
+	Runecraft     = 21
+	Hunter        = 22
+	Construction  = 23
+	Bhhunter      = 24
+	Bhrogue       = 25
+	Lmsrank       = 26
+	Cluesall      = 27
+	Cluesbeginner = 28
+	Clueseasy     = 29
+	Cluesmedium   = 30
+	Clueshard     = 31
+	Clueselite    = 32
+	Cluesmaster   = 33
+	Offset        = Bhhunter
 )
 
 func GetHiscoreName(index int) (name string) {
@@ -132,6 +133,8 @@ func GetHiscoreName(index int) (name string) {
 		return "BH/Rogue"
 	case Cluesall:
 		return "Clues/All"
+	case Cluesbeginner:
+		return "Clues/Beginner"
 	case Clueseasy:
 		return "Clues/Easy"
 	case Cluesmedium:
@@ -206,6 +209,8 @@ func GetHiscoreEmoji(index int) (emoji string) {
 	case Bhrogue:
 		return "<:bh_rogue:529105998892236868>"
 	case Cluesall:
+		return "<:cluescroll:529106218753720320>"
+	case Cluesbeginner:
 		return "<:cluescroll:529106218753720320>"
 	case Clueseasy:
 		return "<:cluescroll:529106218753720320>"
@@ -307,8 +312,9 @@ func (hs *Hiscore) GenerateHiscoresEmbed() (embed *discordgo.MessageEmbed) {
 		&discordgo.MessageEmbedField{
 			Name: fmt.Sprintf("%s Clues", GetHiscoreEmoji(Cluesall)),
 			Value: fmt.Sprintf(
-				"**All:** %s\n**Easy:** %s\n**Medium:** %s\n**Hard:** %s\n**Elite:** %s\n**Master:** %s",
+				"**All:** %s\n**Beginner:** %s\n**Easy:** %s\n**Medium:** %s\n**Hard:** %s\n**Elite:** %s\n**Master:** %s",
 				util.RenderInteger("#,###.", hs.Minigames[Cluesall-Offset].Score),
+				util.RenderInteger("#,###.", hs.Minigames[Cluesbeginner-Offset].Score),
 				util.RenderInteger("#,###.", hs.Minigames[Clueseasy-Offset].Score),
 				util.RenderInteger("#,###.", hs.Minigames[Cluesmedium-Offset].Score),
 				util.RenderInteger("#,###.", hs.Minigames[Clueshard-Offset].Score),
