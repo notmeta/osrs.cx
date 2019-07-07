@@ -44,7 +44,7 @@ func (item *Item) GetIconUrl() string {
 }
 
 func (item *Item) GetLargeIconUrl() string {
-	return fmt.Sprintf("http://services.runescape.com/m=itemdb_oldschool/1549538991370_obj_big.gif?id=%d", item.Id)
+	return fmt.Sprintf("http://services.runescape.com/m=itemdb_oldschool/obj_big.gif?id=%d", item.Id)
 }
 
 func (item *Item) GetOSBPrice() OsbPrice {
