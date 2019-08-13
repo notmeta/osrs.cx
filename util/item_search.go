@@ -40,7 +40,7 @@ func SearchItem(query string) ItemSearchResult {
 }
 
 func (item *Item) GetIconUrl() string {
-	return fmt.Sprintf("%sitem/icon/%d.png", runeliteSRNUrl, item.Id)
+	return fmt.Sprintf("%scache/item/icon/%d.png", runeliteSRNUrl, item.Id)
 }
 
 func (item *Item) GetLargeIconUrl() string {
