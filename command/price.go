@@ -38,6 +38,7 @@ func (m *Mux) Price(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 	}
 
 	item := results.Items[0]
+	itemPrice := item.GetOSBPrice()
 
 	resp := &discordgo.MessageEmbed{
 		Timestamp: time.Now().Format(time.RFC3339),
@@ -56,17 +57,17 @@ func (m *Mux) Price(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 		Fields: []*discordgo.MessageEmbedField{
 			{
 				Name:   "Buy Price",
-				Value:  util.RenderInteger("#,###.", item.GetOSBPrice().BuyAverage) + " gp",
+				Value:  util.RenderInteger("#,###.", itemPrice.BuyAverage) + " gp",
 				Inline: true,
 			},
 			{
 				Name:   "Overall Price",
-				Value:  util.RenderInteger("#,###.", item.GetOSBPrice().OverallAverage) + " gp",
+				Value:  util.RenderInteger("#,###.", itemPrice.OverallAverage) + " gp",
 				Inline: true,
 			},
 			{
 				Name:   "Sell Price",
-				Value:  util.RenderInteger("#,###.", item.GetOSBPrice().SellAverage) + " gp",
+				Value:  util.RenderInteger("#,###.", itemPrice.SellAverage) + " gp",
 				Inline: false,
 			},
 		},
