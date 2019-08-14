@@ -12,7 +12,7 @@ import (
 )
 
 // Version is a constant that stores the Disgord version information.
-const Version = "v0.2"
+const Version = "v0.3"
 
 // Session is declared in the global space so it can be easily used
 // throughout this program.
