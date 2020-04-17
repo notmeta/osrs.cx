@@ -3,7 +3,6 @@ package command
 import (
 	"fmt"
 	"github.com/bwmarrin/discordgo"
-	"github.com/notmeta/osrs.cx/model"
 	"github.com/notmeta/osrs.cx/util"
 	"io/ioutil"
 	"strings"
@@ -23,8 +22,8 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 		}
 	}
 
-	apiUrl := model.GetHiscoresApiUrl(&username)
-	friendlyUrl := model.GetFriendlyHiscoresUrl(&username)
+	apiUrl := util.GetHiscoresApiUrl(&username)
+	friendlyUrl := util.GetFriendlyHiscoresUrl(&username)
 
 	msg, _ := ds.ChannelMessageSendEmbed(dm.ChannelID, &discordgo.MessageEmbed{
 		Timestamp: time.Now().Format(time.RFC3339),
@@ -59,7 +58,7 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 		statsResponse.Color = 0xFF0000
 	} else {
 		body := string(body)
-		embed := model.ParseHiscore(&username, &body).GenerateHiscoresEmbed()
+		embed := util.ParseHiscore(&username, &body).GenerateHiscoresEmbed()
 
 		statsResponse = embed
 	}

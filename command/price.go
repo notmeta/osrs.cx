@@ -10,26 +10,26 @@ import (
 
 func (m *Mux) Price(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 
-	query := strings.Join(ctx.Fields[1:], "+")
+	query := strings.Join(ctx.Fields[1:], " ")
 
 	msg, _ := ds.ChannelMessageSendEmbed(dm.ChannelID, &discordgo.MessageEmbed{
 		Timestamp: time.Now().Format(time.RFC3339),
 		Footer: &discordgo.MessageEmbedFooter{
 			Text: "osrs.cx",
 		},
-		Description: fmt.Sprintf("Finding prices for `%s`...", strings.Replace(query, "+", " ", -1)),
+		Description: fmt.Sprintf("Finding prices for `%s`...", query),
 		Color:       0xFFFF00,
 	})
 
-	results := util.SearchItem(query)
+	results := util.FindBestMatchItemId(query)
 
-	if len(results.Items) == 0 {
+	if results == nil {
 		noItemFoundResponse := &discordgo.MessageEmbed{
 			Timestamp: time.Now().Format(time.RFC3339),
 			Footer: &discordgo.MessageEmbedFooter{
 				Text: "osrs.cx",
 			},
-			Description: fmt.Sprintf("Couldn't find prices for `%s`!", strings.Replace(query, "+", " ", -1)),
+			Description: fmt.Sprintf("Couldn't find prices for `%s`!", query),
 			Color:       0xFF0000,
 		}
 
@@ -37,17 +37,17 @@ func (m *Mux) Price(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 		return
 	}
 
-	item := results.Items[0]
-	itemPrice := item.GetOSBPrice()
+	item := util.RunescapeItemForId(*results).Item
+	itemPrice := util.GetOSBPrice(*results)
 
 	resp := &discordgo.MessageEmbed{
 		Timestamp: time.Now().Format(time.RFC3339),
 		Author: &discordgo.MessageEmbedAuthor{
 			Name:    item.Name,
-			IconURL: item.GetIconUrl(),
+			IconURL: item.Icon,
 		},
 		Thumbnail: &discordgo.MessageEmbedThumbnail{
-			URL: item.GetLargeIconUrl(),
+			URL: item.IconLarge,
 		},
 		Description: "_" + item.Description + "_",
 		Color:       0x00FF00,

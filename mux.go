@@ -29,7 +29,6 @@ func init() {
 	_, _ = Router.Route("stats", "Get hiscores for a given account.", Router.Stats, "hiscores", "hs")
 	_, _ = Router.Route("github", "", Router.Github)
 	_, _ = Router.Route("meta", "Meta statistics for the bot.", Router.Meta)
-	//_, _ = Router.Route("update", "Updates a specified user's CML stats.", Router.Update)
 	_, _ = Router.Route("price", "Find the exchange price of an item.", Router.Price)
 	_, _ = Router.Route("setrsn", "Remember your username for future commands.", Router.SetRsn)
 	//_, _ = Router.Route("me", "Displays info about your account based on stored rsn.", Router.Me)

@@ -3,9 +3,15 @@ package util
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
+	"github.com/notmeta/osrs.cx/model"
+	"log"
+	"strconv"
 	"time"
 )
+
+type Item struct {
+	*model.Item
+}
 
 type ItemSearchResult struct {
 	Items []Item
@@ -33,24 +39,10 @@ func SearchItem(query string) ItemSearchResult {
 
 	body, _ := GetBody(&url)
 
-	result := ItemSearchResult{}
-	_ = json.Unmarshal(body, &result)
-
-	return result
-}
-
-func (item *Item) GetIconUrl() string {
-	return fmt.Sprintf("%scache/item/icon/%d.png", runeliteSRNUrl, item.Id)
-}
-
-func (item *Item) GetLargeIconUrl() string {
-	return fmt.Sprintf("http://services.runescape.com/m=itemdb_oldschool/obj_big.gif?id=%d", item.Id)
-}
-
-func (item *Item) GetOSBPrice() OsbPrice {
+func GetOSBPrice(id int) OsbPrice {
 	price := OsbPrice{}
 
-	key := fmt.Sprintf(priceKeyFormat, item.Id)
+	key := fmt.Sprintf(priceKeyFormat, id)
 	cachedPrice, _ := Store.Get(key).Result()
 
 	var jsonPrice []byte
@@ -58,7 +50,7 @@ func (item *Item) GetOSBPrice() OsbPrice {
 	if len(cachedPrice) > 0 {
 		jsonPrice = []byte(cachedPrice)
 	} else {
-		url := fmt.Sprintf("%s/osb/ge?itemId=%d", RuneliteApiUrl(), item.Id)
+		url := fmt.Sprintf("%s/osb/ge?itemId=%d", RuneliteApiUrl(), id)
 		jsonPrice, _ = GetBody(&url)
 		_ = Store.Set(key, string(jsonPrice), 20*time.Minute).Err()
 	}
