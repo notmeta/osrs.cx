@@ -3,12 +3,14 @@ services:
   redis_db:
     image: redis
     command: redis-server --appendonly yes
+    restart: unless-stopped
     ports:
       - "127.0.0.1:6379:6379"
     volumes:
       - /docker/redis-data:/data
   bot:
     build: .
+    restart: unless-stopped
     links:
       - redis_db
     environment:
