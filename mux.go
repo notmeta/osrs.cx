@@ -31,4 +31,5 @@ func init() {
 	_, _ = Router.Route("meta", "Meta statistics for the bot.", Router.Meta)
 	_, _ = Router.Route("price", "Find the exchange price of an item.", Router.Price)
 	_, _ = Router.Route("setrsn", "Remember your username for future commands.", Router.SetRsn)
+	_, _ = Router.Route("search", "Search for items based on an input (tradable items only)", Router.Search)
 }

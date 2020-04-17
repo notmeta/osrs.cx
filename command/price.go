@@ -21,9 +21,9 @@ func (m *Mux) Price(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 		Color:       0xFFFF00,
 	})
 
-	results := util.FindBestMatchItemId(query)
+	itemId := util.FindBestMatchItemId(query)
 
-	if results == nil {
+	if itemId == nil {
 		noItemFoundResponse := &discordgo.MessageEmbed{
 			Timestamp: time.Now().Format(time.RFC3339),
 			Footer: &discordgo.MessageEmbedFooter{
@@ -37,8 +37,8 @@ func (m *Mux) Price(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 		return
 	}
 
-	item := util.RunescapeItemForId(*results).Item
-	itemPrice := util.GetOSBPrice(*results)
+	item := util.RunescapeItemForId(*itemId).Item
+	itemPrice := util.GetOSBPrice(*itemId)
 
 	resp := &discordgo.MessageEmbed{
 		Timestamp: time.Now().Format(time.RFC3339),

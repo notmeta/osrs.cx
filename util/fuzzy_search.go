@@ -32,6 +32,16 @@ var rwm sync.RWMutex
 var updatingCache = abool.New()
 
 func FindBestMatchItemId(input string) *int {
+	results := FindItemIds(input)
+
+	if results == nil {
+		return nil
+	}
+
+	return &results[0]
+}
+
+func FindItemIds(input string) []int {
 	updateItemCache()
 
 	rwm.RLock()
@@ -44,9 +54,13 @@ func FindBestMatchItemId(input string) *int {
 		return nil
 	}
 
-	top := items[results[0].Index]
+	toReturn := make([]int, results.Len())
 
-	return &top.Id
+	for idx, r := range results {
+		toReturn[idx] = items[r.Index].Id
+	}
+
+	return toReturn
 }
 
 func updateItemCache() {
@@ -56,11 +70,11 @@ func updateItemCache() {
 		return
 	}
 
-	log.Println("Local item cache expired/not found, populating")
-
 	if !updatingCache.SetToIf(false, true) {
 		return
 	}
+
+	log.Println("Local item cache expired/not found - populating...")
 
 	rwm.Lock()
 	defer rwm.Unlock()
@@ -77,4 +91,6 @@ func updateItemCache() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	log.Printf("Local item cache populated with %d entries\n", items.Len())
 }
