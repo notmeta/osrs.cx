@@ -3,26 +3,8 @@ package util
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/notmeta/osrs.cx/model"
-	"log"
-	"strconv"
 	"time"
 )
-
-type Item struct {
-	*model.Item
-}
-
-type ItemSearchResult struct {
-	Items []Item
-}
-
-type Item struct {
-	Id          int
-	Name        string
-	Description string
-	Type        string
-}
 
 type OsbPrice struct {
 	ItemId         int `json:"item_id"`
@@ -32,12 +14,6 @@ type OsbPrice struct {
 }
 
 const priceKeyFormat = "price:%d"
-
-func SearchItem(query string) ItemSearchResult {
-	query = strings.Replace(query, " ", "+", -1)
-	url := fmt.Sprintf("%sitem/search?query=%s", RuneliteApiUrl(), query)
-
-	body, _ := GetBody(&url)
 
 func GetOSBPrice(id int) OsbPrice {
 	price := OsbPrice{}
