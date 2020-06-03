@@ -5,6 +5,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/notmeta/osrs.cx/util"
 	"io/ioutil"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -20,6 +21,37 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 			_, _ = ds.ChannelMessageSend(dm.ChannelID, "Please specify a username, or set one with `::setrsn [username]`")
 			return
 		}
+	}
+
+	reg := regexp.MustCompile("<@!([0-9]*?)>")
+	matches := reg.FindStringSubmatch(username)
+	if len(matches) > 0 {
+		// find the matching user to validate they exist
+		guild, err := ds.State.Guild(dm.GuildID)
+		if err != nil {
+			return
+		}
+
+		var user *discordgo.User = nil
+		for _, m := range guild.Members {
+			if m.User.ID == matches[1] {
+				user = m.User
+				break
+			}
+		}
+
+		if user == nil {
+			_, _ = ds.ChannelMessageSend(dm.ChannelID, fmt.Sprintf("User %s not found!", username))
+			return
+		}
+
+		rsn := util.GetRsn(user)
+		if len(rsn) == 0 {
+			_, _ = ds.ChannelMessageSend(dm.ChannelID, fmt.Sprintf("%s has no username set!", username))
+			return
+		}
+
+		username = rsn
 	}
 
 	apiUrl := util.GetHiscoresApiUrl(&username)
