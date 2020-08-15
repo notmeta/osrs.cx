@@ -9,7 +9,7 @@ services:
     volumes:
       - /docker/redis-data:/data
   bot:
-    image: docker.pkg.github.com/notmeta/osrs.cx/osrscx:0.3.1
+    image: notmeta/osrs.cx:latest
     restart: unless-stopped
     links:
       - redis_db
