@@ -52,8 +52,7 @@ func (m *Mux) Help(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
 
 	sort.Strings(keys)
 
-	resp := "\n*Commands can be abbreviated and mixed with other text.*\n"
-	resp += "```yml\n"
+	resp := "```yml\n"
 
 	v, ok := cmdmap["help"]
 	if ok {

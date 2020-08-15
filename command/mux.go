@@ -61,46 +61,34 @@ func (m *Mux) Route(pattern, desc string, cb HandlerFunc, aliases ...string) (*R
 	return &r, nil
 }
 
-// FuzzyMatch attepts to find the best route match for a givin message.
-func (m *Mux) FuzzyMatch(msg string) (*Route, []string) {
+// FindRoute attempts to find the best route match for a given message.
+func (m *Mux) FindRoute(msg string) *Route {
 
 	// Tokenize the msg string into a slice of words
 	fields := strings.Fields(msg)
 
 	// no point to continue if there's no fields
 	if len(fields) == 0 {
-		return nil, nil
+		return nil
 	}
+
+	toFind := fields[0]
 
 	// Search though the command list for a match
 	var r *Route
-	var rank int
 
-	var fk int
-	for fk, fv := range fields {
+	for _, rv := range m.Routes {
 
-		for _, rv := range m.Routes {
+		patterns := append([]string{rv.Pattern}, rv.Aliases...)
 
-			patterns := append([]string{rv.Pattern}, rv.Aliases...)
-
-			for _, pattern := range patterns {
-				// If we find an exact match, return that immediately.
-				if pattern == fv {
-					return rv, fields[fk:]
-				}
-
-				// Some "Fuzzy" searching...
-				if strings.HasPrefix(pattern, fv) {
-					if len(fv) > rank {
-						r = rv
-						rank = len(fv)
-					}
-				}
+		for _, pattern := range patterns {
+			if pattern == toFind {
+				return rv
 			}
-
 		}
 	}
-	return r, fields[fk:]
+
+	return r
 }
 
 // OnMessageCreate is a DiscordGo Event Handler function.  This must be
@@ -119,6 +107,7 @@ func (m *Mux) OnMessageCreate(ds *discordgo.Session, mc *discordgo.MessageCreate
 	// Create Context struct that we can put various infos into
 	ctx := &Context{
 		Content: strings.TrimSpace(mc.Content),
+		Fields:  strings.Fields(strings.TrimSpace(mc.Content)),
 	}
 
 	// Fetch the channel for this Message
@@ -186,9 +175,8 @@ func (m *Mux) OnMessageCreate(ds *discordgo.Session, mc *discordgo.MessageCreate
 	}
 
 	// Try to find the "best match" command out of the message.
-	r, fl := m.FuzzyMatch(ctx.Content)
+	r := m.FindRoute(ctx.Content)
 	if r != nil {
-		ctx.Fields = fl
 		r.Run(ds, mc.Message, ctx)
 		return
 	}
