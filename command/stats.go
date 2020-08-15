@@ -26,26 +26,15 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 	reg := regexp.MustCompile("<@!([0-9]*?)>")
 	matches := reg.FindStringSubmatch(username)
 	if len(matches) > 0 {
-		// find the matching user to validate they exist
-		guild, err := ds.State.Guild(dm.GuildID)
-		if err != nil {
-			return
-		}
+		mem, err := ds.User(matches[1])
 
-		var user *discordgo.User = nil
-		for _, m := range guild.Members {
-			if m.User.ID == matches[1] {
-				user = m.User
-				break
-			}
-		}
-
-		if user == nil {
+		if mem == nil || err != nil {
 			_, _ = ds.ChannelMessageSend(dm.ChannelID, fmt.Sprintf("User %s not found!", username))
+			println(err)
 			return
 		}
 
-		rsn := util.GetRsn(user)
+		rsn := util.GetRsn(mem)
 		if len(rsn) == 0 {
 			_, _ = ds.ChannelMessageSend(dm.ChannelID, fmt.Sprintf("%s has no username set!", username))
 			return
