@@ -5,6 +5,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/notmeta/osrs.cx/util"
 	"io/ioutil"
+	"log"
 	"regexp"
 	"strings"
 	"time"
@@ -26,15 +27,18 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 	reg := regexp.MustCompile("<@!([0-9]*?)>")
 	matches := reg.FindStringSubmatch(username)
 	if len(matches) > 0 {
-		mem, err := ds.User(matches[1])
+		mem, err := ds.GuildMember(dm.GuildID, matches[1])
 
-		if mem == nil || err != nil {
+		if err != nil {
+			log.Println("error finding user '"+matches[1]+"':", err)
+		}
+
+		if mem == nil {
 			_, _ = ds.ChannelMessageSend(dm.ChannelID, fmt.Sprintf("User %s not found!", username))
-			println(err)
 			return
 		}
 
-		rsn := util.GetRsn(mem)
+		rsn := util.GetRsn(mem.User)
 		if len(rsn) == 0 {
 			_, _ = ds.ChannelMessageSend(dm.ChannelID, fmt.Sprintf("%s has no username set!", username))
 			return
