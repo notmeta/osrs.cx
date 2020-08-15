@@ -3,7 +3,7 @@ module github.com/notmeta/osrs.cx
 go 1.14
 
 require (
-	github.com/bwmarrin/discordgo v0.19.0
+	github.com/bwmarrin/discordgo v0.22.0
 	github.com/go-redis/redis v6.15.2+incompatible
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/onsi/ginkgo v1.8.0 // indirect
