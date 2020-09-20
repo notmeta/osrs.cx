@@ -53,9 +53,9 @@ const (
 	Runecraft     = 21
 	Hunter        = 22
 	Construction  = 23
-	Bhhunter      = 24
-	Bhrogue       = 25
-	Lmsrank       = 26
+	League        = 24
+	Bhhunter      = 25
+	Bhrogue       = 26
 	Cluesall      = 27
 	Cluesbeginner = 28
 	Clueseasy     = 29
@@ -63,7 +63,8 @@ const (
 	Clueshard     = 31
 	Clueselite    = 32
 	Cluesmaster   = 33
-	Offset        = Bhhunter
+	Lmsrank       = 34
+	Offset        = League
 )
 
 func GetHiscoreName(index int) (name string) {

@@ -135,7 +135,7 @@ func ParseHiscoreLines(username *string, lines *[]string) (hs *Hiscore) {
 
 		name := model.GetHiscoreName(i)
 
-		if i < model.Bhhunter {
+		if i < model.League {
 			rank, level, xp := parseSkillLine(line)
 
 			skill := model.HiscoreSkill{
