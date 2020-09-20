@@ -7,16 +7,16 @@ type HiscoreSkill struct {
 	Experience int
 }
 
-type HiscoreMinigame struct {
+type HiscoreActivity struct {
 	Name  string
 	Rank  int
 	Score int
 }
 
 type Hiscore struct {
-	Username  string
-	Skills    []HiscoreSkill
-	Minigames []HiscoreMinigame
+	Username   string
+	Skills     []HiscoreSkill
+	Activities []HiscoreActivity
 }
 
 const (
@@ -29,42 +29,86 @@ const (
 )
 
 const (
-	Overall       = 0
-	Attack        = 1
-	Defence       = 2
-	Strength      = 3
-	Hitpoints     = 4
-	Ranged        = 5
-	Prayer        = 6
-	Magic         = 7
-	Cooking       = 8
-	Woodcutting   = 9
-	Fletching     = 10
-	Fishing       = 11
-	Firemaking    = 12
-	Crafting      = 13
-	Smithing      = 14
-	Mining        = 15
-	Herblore      = 16
-	Agility       = 17
-	Thieving      = 18
-	Slayer        = 19
-	Farming       = 20
-	Runecraft     = 21
-	Hunter        = 22
-	Construction  = 23
-	League        = 24
-	Bhhunter      = 25
-	Bhrogue       = 26
-	Cluesall      = 27
-	Cluesbeginner = 28
-	Clueseasy     = 29
-	Cluesmedium   = 30
-	Clueshard     = 31
-	Clueselite    = 32
-	Cluesmaster   = 33
-	Lmsrank       = 34
-	Offset        = League
+	Overall               = 0
+	Attack                = 1
+	Defence               = 2
+	Strength              = 3
+	Hitpoints             = 4
+	Ranged                = 5
+	Prayer                = 6
+	Magic                 = 7
+	Cooking               = 8
+	Woodcutting           = 9
+	Fletching             = 10
+	Fishing               = 11
+	Firemaking            = 12
+	Crafting              = 13
+	Smithing              = 14
+	Mining                = 15
+	Herblore              = 16
+	Agility               = 17
+	Thieving              = 18
+	Slayer                = 19
+	Farming               = 20
+	Runecraft             = 21
+	Hunter                = 22
+	Construction          = 23
+	League                = 24
+	Bhhunter              = 25
+	Bhrogue               = 26
+	Cluesall              = 27
+	Cluesbeginner         = 28
+	Clueseasy             = 29
+	Cluesmedium           = 30
+	Clueshard             = 31
+	Clueselite            = 32
+	Cluesmaster           = 33
+	Lmsrank               = 34
+	Sire                  = 35
+	Hydra                 = 36
+	Barrows               = 37
+	Bryophyta             = 38
+	Callisto              = 39
+	Cerberus              = 40
+	Xeric                 = 41
+	Xericchallenge        = 42
+	Chaoselemental        = 43
+	Chaosfanatic          = 44
+	Zilyana               = 45
+	Corporealbeast        = 46
+	Crazyarchaeologist    = 47
+	Dkprime               = 48
+	Dkrex                 = 49
+	Dksupreme             = 50
+	Derangedarchaeologist = 51
+	Graardor              = 52
+	Mole                  = 53
+	Grotesqueguardians    = 54
+	Hespori               = 55
+	Kalphitequeen         = 56
+	Kingblackdragon       = 57
+	Kraken                = 58
+	Kreearra              = 59
+	Kril                  = 60
+	Mimic                 = 61
+	Nightmare             = 62
+	Obor                  = 63
+	Sarachnis             = 64
+	Scorpia               = 65
+	Skotizo               = 66
+	Gauntlet              = 67
+	Corruptedgauntlet     = 68
+	Theatreofblood        = 69
+	Thermonucleardevil    = 70
+	Tzkalzuk              = 71
+	Tztokjad              = 72
+	Venenatis             = 73
+	Vetion                = 74
+	Vorkath               = 75
+	Wintertodt            = 76
+	Zulcano               = 77
+	Zulrah                = 78
+	Offset                = League
 )
 
 func GetHiscoreName(index int) (name string) {
@@ -138,6 +182,95 @@ func GetHiscoreName(index int) (name string) {
 		return "Clues/Master"
 	case Lmsrank:
 		return "LMS/Rank"
+	case Sire:
+		return "Abyssal Sire"
+	case Hydra:
+		return "Alchemical Hydra"
+	case Barrows:
+		return "Barrows Chests"
+	case Bryophyta:
+		return "Bryophyta"
+	case Callisto:
+		return "Callisto"
+	case Cerberus:
+		return "Cerberus"
+	case Xeric:
+		return "Chambers of Xeric"
+	case Xericchallenge:
+		return "Chambers of Xeric: Challenge Mode"
+	case Chaoselemental:
+		return "Chaos Elemental"
+	case Chaosfanatic:
+		return "Chaos Fanatic"
+	case Zilyana:
+		return "Commander Zilyana"
+	case Corporealbeast:
+		return "Corporeal Beast"
+	case Crazyarchaeologist:
+		return "Crazy Archaeologist"
+	case Dkprime:
+		return "Dagannoth Prime"
+	case Dkrex:
+		return "Dagannoth Rex"
+	case Dksupreme:
+		return "Dagannoth Supreme"
+	case Derangedarchaeologist:
+		return "Deranged Archaeologist"
+	case Graardor:
+		return "General Graardor"
+	case Mole:
+		return "Giant Mole"
+	case Grotesqueguardians:
+		return "Grotesque Guardians"
+	case Hespori:
+		return "Hespori"
+	case Kalphitequeen:
+		return "Kalphite Queen"
+	case Kingblackdragon:
+		return "King Black Dragon"
+	case Kraken:
+		return "Kraken"
+	case Kreearra:
+		return "Kree'arra"
+	case Kril:
+		return "K'ril Tsutsaroth"
+	case Mimic:
+		return "Mimic"
+	case Nightmare:
+		return "Nightmare"
+	case Obor:
+		return "Obor"
+	case Sarachnis:
+		return "Sarachnis"
+	case Scorpia:
+		return "Scorpia"
+	case Skotizo:
+		return "Skotizo"
+	case Gauntlet:
+		return "The Gauntlet"
+	case Corruptedgauntlet:
+		return "The Corrupted Gauntlet"
+	case Theatreofblood:
+		return "Theatre of Blood"
+	case Thermonucleardevil:
+		return "Thermonuclear Smoke Devil"
+	case Tzkalzuk:
+		return "TzKal-Zuk"
+	case Tztokjad:
+		return "TzTok-Jad"
+	case Venenatis:
+		return "Venenatis"
+	case Vetion:
+		return "Vet'ion"
+	case Vorkath:
+		return "Vorkath"
+	case Wintertodt:
+		return "Wintertodt"
+	case Zulcano:
+		return "Zulcano"
+	case Zulrah:
+		return "Zulrah"
+
 	default:
 		return "Error"
 	}

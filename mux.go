@@ -27,6 +27,7 @@ func init() {
 	_, _ = Router.Route("invite", "PMs a link to invite this bot to your server.", Router.Invite)
 	_, _ = Router.Route("ping", "", Router.Ping)
 	_, _ = Router.Route("stats", "Get hiscores for a given account.", Router.Stats, "hiscores", "hs")
+	_, _ = Router.Route("bosses", "Get boss killcounts for a given account.", Router.Bosses, "boss", "kc")
 	_, _ = Router.Route("github", "", Router.Github)
 	_, _ = Router.Route("meta", "Meta statistics for the bot.", Router.Meta)
 	_, _ = Router.Route("price", "Find the exchange price of an item.", Router.Price)

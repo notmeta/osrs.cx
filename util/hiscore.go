@@ -92,12 +92,12 @@ func (hs *Hiscore) GenerateHiscoresEmbed() (embed *discordgo.MessageEmbed) {
 			Inline: true,
 		},
 		&discordgo.MessageEmbedField{
-			Name: fmt.Sprintf("%s Minigames", model.MinigamesEmoji),
+			Name: fmt.Sprintf("%s Activities", model.MinigamesEmoji),
 			Value: fmt.Sprintf(
 				"%s **BH/Hunter:** %s\n%s **BH/Rogue:** %s\n%s **LMS:** %s",
-				model.GetHiscoreEmoji(model.Bhhunter), RenderInteger("#,###.", hs.Minigames[model.Bhhunter-model.Offset].Score),
-				model.GetHiscoreEmoji(model.Bhrogue), RenderInteger("#,###.", hs.Minigames[model.Bhrogue-model.Offset].Score),
-				model.GetHiscoreEmoji(model.Lmsrank), RenderInteger("#,###.", hs.Minigames[model.Lmsrank-model.Offset].Score),
+				model.GetHiscoreEmoji(model.Bhhunter), RenderInteger("#,###.", hs.Activities[model.Bhhunter-model.Offset].Score),
+				model.GetHiscoreEmoji(model.Bhrogue), RenderInteger("#,###.", hs.Activities[model.Bhrogue-model.Offset].Score),
+				model.GetHiscoreEmoji(model.Lmsrank), RenderInteger("#,###.", hs.Activities[model.Lmsrank-model.Offset].Score),
 			),
 			Inline: true,
 		},
@@ -105,13 +105,98 @@ func (hs *Hiscore) GenerateHiscoresEmbed() (embed *discordgo.MessageEmbed) {
 			Name: fmt.Sprintf("%s Clues", model.GetHiscoreEmoji(model.Cluesall)),
 			Value: fmt.Sprintf(
 				"**All:** %s\n**Beginner:** %s\n**Easy:** %s\n**Medium:** %s\n**Hard:** %s\n**Elite:** %s\n**Master:** %s",
-				RenderInteger("#,###.", hs.Minigames[model.Cluesall-model.Offset].Score),
-				RenderInteger("#,###.", hs.Minigames[model.Cluesbeginner-model.Offset].Score),
-				RenderInteger("#,###.", hs.Minigames[model.Clueseasy-model.Offset].Score),
-				RenderInteger("#,###.", hs.Minigames[model.Cluesmedium-model.Offset].Score),
-				RenderInteger("#,###.", hs.Minigames[model.Clueshard-model.Offset].Score),
-				RenderInteger("#,###.", hs.Minigames[model.Clueselite-model.Offset].Score),
-				RenderInteger("#,###.", hs.Minigames[model.Cluesmaster-model.Offset].Score),
+				RenderInteger("#,###.", hs.Activities[model.Cluesall-model.Offset].Score),
+				RenderInteger("#,###.", hs.Activities[model.Cluesbeginner-model.Offset].Score),
+				RenderInteger("#,###.", hs.Activities[model.Clueseasy-model.Offset].Score),
+				RenderInteger("#,###.", hs.Activities[model.Cluesmedium-model.Offset].Score),
+				RenderInteger("#,###.", hs.Activities[model.Clueshard-model.Offset].Score),
+				RenderInteger("#,###.", hs.Activities[model.Clueselite-model.Offset].Score),
+				RenderInteger("#,###.", hs.Activities[model.Cluesmaster-model.Offset].Score),
+			),
+			Inline: true,
+		},
+	)
+
+	return embed
+}
+
+func (hs *Hiscore) GenerateBossEmbed() (embed *discordgo.MessageEmbed) {
+	embed = &discordgo.MessageEmbed{
+		Author: &discordgo.MessageEmbedAuthor{
+			Name: *hs.GetFriendlyUsername(),
+			URL:  *GetFriendlyHiscoresUrl(&hs.Username),
+		},
+		Timestamp: time.Now().Format(time.RFC3339),
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: "osrs.cx",
+		},
+		Color: 0x00FF00,
+	}
+
+	embed.Fields = append(embed.Fields,
+		&discordgo.MessageEmbedField{
+			Name: "\u200b",
+			Value: fmt.Sprintf(
+				"%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d",
+				model.GetHiscoreName(model.Sire), hs.Activities[model.Sire-model.Offset].Score,
+				model.GetHiscoreName(model.Hydra), hs.Activities[model.Hydra-model.Offset].Score,
+				model.GetHiscoreName(model.Barrows), hs.Activities[model.Barrows-model.Offset].Score,
+				model.GetHiscoreName(model.Bryophyta), hs.Activities[model.Bryophyta-model.Offset].Score,
+				model.GetHiscoreName(model.Callisto), hs.Activities[model.Callisto-model.Offset].Score,
+				model.GetHiscoreName(model.Xeric), hs.Activities[model.Xeric-model.Offset].Score,
+				model.GetHiscoreName(model.Xericchallenge), hs.Activities[model.Xericchallenge-model.Offset].Score,
+				model.GetHiscoreName(model.Chaoselemental), hs.Activities[model.Chaoselemental-model.Offset].Score,
+				model.GetHiscoreName(model.Chaosfanatic), hs.Activities[model.Chaosfanatic-model.Offset].Score,
+				model.GetHiscoreName(model.Zilyana), hs.Activities[model.Zilyana-model.Offset].Score,
+				model.GetHiscoreName(model.Corporealbeast), hs.Activities[model.Corporealbeast-model.Offset].Score,
+				model.GetHiscoreName(model.Crazyarchaeologist), hs.Activities[model.Crazyarchaeologist-model.Offset].Score,
+				model.GetHiscoreName(model.Dkprime), hs.Activities[model.Dkprime-model.Offset].Score,
+				model.GetHiscoreName(model.Dkrex), hs.Activities[model.Dkrex-model.Offset].Score,
+				model.GetHiscoreName(model.Dksupreme), hs.Activities[model.Dksupreme-model.Offset].Score,
+			),
+			Inline: true,
+		},
+		&discordgo.MessageEmbedField{
+			Name: "\u200b",
+			Value: fmt.Sprintf(
+				"%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d",
+
+				model.GetHiscoreName(model.Derangedarchaeologist), hs.Activities[model.Derangedarchaeologist-model.Offset].Score,
+				model.GetHiscoreName(model.Graardor), hs.Activities[model.Graardor-model.Offset].Score,
+				model.GetHiscoreName(model.Mole), hs.Activities[model.Mole-model.Offset].Score,
+				model.GetHiscoreName(model.Grotesqueguardians), hs.Activities[model.Grotesqueguardians-model.Offset].Score,
+				model.GetHiscoreName(model.Hespori), hs.Activities[model.Hespori-model.Offset].Score,
+				model.GetHiscoreName(model.Kalphitequeen), hs.Activities[model.Kalphitequeen-model.Offset].Score,
+				model.GetHiscoreName(model.Kingblackdragon), hs.Activities[model.Kingblackdragon-model.Offset].Score,
+				model.GetHiscoreName(model.Kraken), hs.Activities[model.Kraken-model.Offset].Score,
+				model.GetHiscoreName(model.Kreearra), hs.Activities[model.Kreearra-model.Offset].Score,
+				model.GetHiscoreName(model.Kril), hs.Activities[model.Kril-model.Offset].Score,
+				model.GetHiscoreName(model.Mimic), hs.Activities[model.Mimic-model.Offset].Score,
+				model.GetHiscoreName(model.Nightmare), hs.Activities[model.Nightmare-model.Offset].Score,
+				model.GetHiscoreName(model.Obor), hs.Activities[model.Obor-model.Offset].Score,
+				model.GetHiscoreName(model.Sarachnis), hs.Activities[model.Sarachnis-model.Offset].Score,
+				model.GetHiscoreName(model.Scorpia), hs.Activities[model.Scorpia-model.Offset].Score,
+			),
+			Inline: true,
+		},
+		&discordgo.MessageEmbedField{
+			Name: "\u200b",
+			Value: fmt.Sprintf(
+				"%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n",
+
+				model.GetHiscoreName(model.Skotizo), hs.Activities[model.Skotizo-model.Offset].Score,
+				model.GetHiscoreName(model.Gauntlet), hs.Activities[model.Gauntlet-model.Offset].Score,
+				model.GetHiscoreName(model.Corruptedgauntlet), hs.Activities[model.Corruptedgauntlet-model.Offset].Score,
+				model.GetHiscoreName(model.Theatreofblood), hs.Activities[model.Theatreofblood-model.Offset].Score,
+				model.GetHiscoreName(model.Thermonucleardevil), hs.Activities[model.Thermonucleardevil-model.Offset].Score,
+				model.GetHiscoreName(model.Tzkalzuk), hs.Activities[model.Tzkalzuk-model.Offset].Score,
+				model.GetHiscoreName(model.Tztokjad), hs.Activities[model.Tztokjad-model.Offset].Score,
+				model.GetHiscoreName(model.Venenatis), hs.Activities[model.Venenatis-model.Offset].Score,
+				model.GetHiscoreName(model.Vetion), hs.Activities[model.Vetion-model.Offset].Score,
+				model.GetHiscoreName(model.Vorkath), hs.Activities[model.Vorkath-model.Offset].Score,
+				model.GetHiscoreName(model.Wintertodt), hs.Activities[model.Wintertodt-model.Offset].Score,
+				model.GetHiscoreName(model.Zulcano), hs.Activities[model.Zulcano-model.Offset].Score,
+				model.GetHiscoreName(model.Zulrah), hs.Activities[model.Zulrah-model.Offset].Score,
 			),
 			Inline: true,
 		},
@@ -149,13 +234,13 @@ func ParseHiscoreLines(username *string, lines *[]string) (hs *Hiscore) {
 		} else {
 			rank, score := parseMinigameLine(line)
 
-			minigame := model.HiscoreMinigame{
+			minigame := model.HiscoreActivity{
 				Name:  name,
 				Rank:  max(0, rank),
 				Score: max(0, score),
 			}
 
-			hs.Minigames = append(hs.Minigames, minigame)
+			hs.Activities = append(hs.Activities, minigame)
 		}
 
 	}

@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
+func Hiscores(ds *discordgo.Session, dm *discordgo.Message, ctx *Context, bosses bool) {
 
 	username := strings.Join(ctx.Fields[1:], "+")
 
@@ -83,7 +83,12 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 		statsResponse.Color = 0xFF0000
 	} else {
 		body := string(body)
-		embed := util.ParseHiscore(&username, &body).GenerateHiscoresEmbed()
+		var embed *discordgo.MessageEmbed
+		if bosses {
+			embed = util.ParseHiscore(&username, &body).GenerateBossEmbed()
+		} else {
+			embed = util.ParseHiscore(&username, &body).GenerateHiscoresEmbed()
+		}
 
 		statsResponse = embed
 	}
@@ -91,4 +96,12 @@ func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) 
 	_, _ = ds.ChannelMessageEditEmbed(dm.ChannelID, msg.ID, statsResponse)
 
 	return
+}
+
+func (m *Mux) Stats(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
+	Hiscores(ds, dm, ctx, false)
+}
+
+func (m *Mux) Bosses(ds *discordgo.Session, dm *discordgo.Message, ctx *Context) {
+	Hiscores(ds, dm, ctx, true)
 }
