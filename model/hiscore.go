@@ -29,90 +29,89 @@ const (
 )
 
 const (
-	Overall               = 0
-	Attack                = 1
-	Defence               = 2
-	Strength              = 3
-	Hitpoints             = 4
-	Ranged                = 5
-	Prayer                = 6
-	Magic                 = 7
-	Cooking               = 8
-	Woodcutting           = 9
-	Fletching             = 10
-	Fishing               = 11
-	Firemaking            = 12
-	Crafting              = 13
-	Smithing              = 14
-	Mining                = 15
-	Herblore              = 16
-	Agility               = 17
-	Thieving              = 18
-	Slayer                = 19
-	Farming               = 20
-	Runecraft             = 21
-	Hunter                = 22
-	Construction          = 23
-	League                = 24
-	Bhhunter              = 25
-	Bhrogue               = 26
-	Cluesall              = 27
-	Cluesbeginner         = 28
-	Clueseasy             = 29
-	Cluesmedium           = 30
-	Clueshard             = 31
-	Clueselite            = 32
-	Cluesmaster           = 33
-	Lmsrank               = 34
-	Sire                  = 35
-	Hydra                 = 36
-	Barrows               = 37
-	Bryophyta             = 38
-	Callisto              = 39
-	Cerberus              = 40
-	Xeric                 = 41
-	Xericchallenge        = 42
-	Chaoselemental        = 43
-	Chaosfanatic          = 44
-	Zilyana               = 45
-	Corporealbeast        = 46
-	Crazyarchaeologist    = 47
-	Dkprime               = 48
-	Dkrex                 = 49
-	Dksupreme             = 50
-	Derangedarchaeologist = 51
-	Graardor              = 52
-	Mole                  = 53
-	Grotesqueguardians    = 54
-	Hespori               = 55
-	Kalphitequeen         = 56
-	Kingblackdragon       = 57
-	Kraken                = 58
-	Kreearra              = 59
-	Kril                  = 60
-	Mimic                 = 61
-	Nightmare             = 62
-	Obor                  = 63
-	Sarachnis             = 64
-	Scorpia               = 65
-	Skotizo               = 66
-	Gauntlet              = 67
-	Corruptedgauntlet     = 68
-	Theatreofblood        = 69
-	Thermonucleardevil    = 70
-	Tzkalzuk              = 71
-	Tztokjad              = 72
-	Venenatis             = 73
-	Vetion                = 74
-	Vorkath               = 75
-	Wintertodt            = 76
-	Zulcano               = 77
-	Zulrah                = 78
-	Offset                = League
+	Overall = iota
+	Attack
+	Defence
+	Strength
+	Hitpoints
+	Ranged
+	Prayer
+	Magic
+	Cooking
+	Woodcutting
+	Fletching
+	Fishing
+	Firemaking
+	Crafting
+	Smithing
+	Mining
+	Herblore
+	Agility
+	Thieving
+	Slayer
+	Farming
+	Runecraft
+	Hunter
+	Construction
+	League
+	Bhhunter
+	Bhrogue
+	Cluesall
+	Cluesbeginner
+	Clueseasy
+	Cluesmedium
+	Clueshard
+	Clueselite
+	Cluesmaster
+	Lmsrank
+	Sire
+	Hydra
+	Barrows
+	Bryophyta
+	Callisto
+	Cerberus
+	Xeric
+	Xericchallenge
+	Chaoselemental
+	Chaosfanatic
+	Zilyana
+	Corporealbeast
+	Crazyarchaeologist
+	Dkprime
+	Dkrex
+	Dksupreme
+	Derangedarchaeologist
+	Graardor
+	Mole
+	Grotesqueguardians
+	Hespori
+	Kalphitequeen
+	Kingblackdragon
+	Kraken
+	Kreearra
+	Kril
+	Mimic
+	Nightmare
+	Obor
+	Sarachnis
+	Scorpia
+	Skotizo
+	Gauntlet
+	Corruptedgauntlet
+	Theatreofblood
+	Thermonucleardevil
+	Tzkalzuk
+	Tztokjad
+	Venenatis
+	Vetion
+	Vorkath
+	Wintertodt
+	Zulcano
+	Zulrah
+	ActivityOffset = League
 )
 
 func GetHiscoreName(index int) (name string) {
-
 	switch index {
 	case Overall:
 		return "Overall"
@@ -270,15 +269,12 @@ func GetHiscoreName(index int) (name string) {
 		return "Zulcano"
 	case Zulrah:
 		return "Zulrah"
-
 	default:
 		return "Error"
 	}
-
 }
 
 func GetHiscoreEmoji(index int) (emoji string) {
-
 	switch index {
 	case Overall:
 		return "<:stats:529107862316908564>"
