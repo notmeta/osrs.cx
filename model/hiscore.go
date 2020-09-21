@@ -109,6 +109,7 @@ const (
 	Zulcano
 	Zulrah
 	ActivityOffset = League
+	BossOffset     = Sire
 )
 
 func GetHiscoreName(index int) (name string) {

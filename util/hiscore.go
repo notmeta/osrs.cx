@@ -21,6 +21,104 @@ func max(a, b int) int {
 	return b
 }
 
+func SumBossKills(hs *Hiscore) int {
+	result := 0
+	for i := model.BossOffset - model.ActivityOffset; i < len(hs.Activities); i++ {
+		result += hs.Activities[i].Score
+	}
+	return result
+}
+
+func (hs *Hiscore) GenerateBossEmbed() (embed *discordgo.MessageEmbed) {
+	embed = &discordgo.MessageEmbed{
+		Author: &discordgo.MessageEmbedAuthor{
+			Name: *hs.GetFriendlyUsername(),
+			URL:  *GetFriendlyHiscoresUrl(&hs.Username),
+		},
+		Timestamp: time.Now().Format(time.RFC3339),
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: "osrs.cx",
+		},
+		Color: 0x00FF00,
+	}
+
+	embed.Fields = append(embed.Fields,
+		&discordgo.MessageEmbedField{
+			Name: "\u200b",
+			Value: fmt.Sprintf(
+				"**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d",
+				model.GetHiscoreName(model.Sire), hs.Activities[model.Sire-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Hydra), hs.Activities[model.Hydra-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Barrows), hs.Activities[model.Barrows-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Bryophyta), hs.Activities[model.Bryophyta-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Callisto), hs.Activities[model.Callisto-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Xeric), hs.Activities[model.Xeric-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Xericchallenge), hs.Activities[model.Xericchallenge-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Chaoselemental), hs.Activities[model.Chaoselemental-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Chaosfanatic), hs.Activities[model.Chaosfanatic-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Zilyana), hs.Activities[model.Zilyana-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Corporealbeast), hs.Activities[model.Corporealbeast-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Crazyarchaeologist), hs.Activities[model.Crazyarchaeologist-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Dkprime), hs.Activities[model.Dkprime-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Dkrex), hs.Activities[model.Dkrex-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Dksupreme), hs.Activities[model.Dksupreme-model.ActivityOffset].Score,
+			),
+			Inline: true,
+		},
+		&discordgo.MessageEmbedField{
+			Name: "\u200b",
+			Value: fmt.Sprintf(
+				"**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d",
+				model.GetHiscoreName(model.Derangedarchaeologist), hs.Activities[model.Derangedarchaeologist-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Graardor), hs.Activities[model.Graardor-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Mole), hs.Activities[model.Mole-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Grotesqueguardians), hs.Activities[model.Grotesqueguardians-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Hespori), hs.Activities[model.Hespori-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Kalphitequeen), hs.Activities[model.Kalphitequeen-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Kingblackdragon), hs.Activities[model.Kingblackdragon-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Kraken), hs.Activities[model.Kraken-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Kreearra), hs.Activities[model.Kreearra-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Kril), hs.Activities[model.Kril-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Mimic), hs.Activities[model.Mimic-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Nightmare), hs.Activities[model.Nightmare-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Obor), hs.Activities[model.Obor-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Sarachnis), hs.Activities[model.Sarachnis-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Scorpia), hs.Activities[model.Scorpia-model.ActivityOffset].Score,
+			),
+			Inline: true,
+		},
+		&discordgo.MessageEmbedField{
+			Name: "\u200b",
+			Value: fmt.Sprintf(
+				"**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n",
+				model.GetHiscoreName(model.Skotizo), hs.Activities[model.Skotizo-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Gauntlet), hs.Activities[model.Gauntlet-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Corruptedgauntlet), hs.Activities[model.Corruptedgauntlet-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Theatreofblood), hs.Activities[model.Theatreofblood-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Thermonucleardevil), hs.Activities[model.Thermonucleardevil-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Tzkalzuk), hs.Activities[model.Tzkalzuk-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Tztokjad), hs.Activities[model.Tztokjad-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Venenatis), hs.Activities[model.Venenatis-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Vetion), hs.Activities[model.Vetion-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Vorkath), hs.Activities[model.Vorkath-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Wintertodt), hs.Activities[model.Wintertodt-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Zulcano), hs.Activities[model.Zulcano-model.ActivityOffset].Score,
+				model.GetHiscoreName(model.Zulrah), hs.Activities[model.Zulrah-model.ActivityOffset].Score,
+			),
+			Inline: true,
+		},
+		&discordgo.MessageEmbedField{
+			Name: "\u200b",
+			Value: fmt.Sprintf(
+				"**%s:** %d",
+				"Total kills", SumBossKills(hs),
+			),
+			Inline: true,
+		},
+	)
+	return embed
+}
+
 func (hs *Hiscore) GenerateHiscoresEmbed() (embed *discordgo.MessageEmbed) {
 	embed = &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{
@@ -112,88 +210,6 @@ func (hs *Hiscore) GenerateHiscoresEmbed() (embed *discordgo.MessageEmbed) {
 				RenderInteger("#,###.", hs.Activities[model.Clueshard-model.ActivityOffset].Score),
 				RenderInteger("#,###.", hs.Activities[model.Clueselite-model.ActivityOffset].Score),
 				RenderInteger("#,###.", hs.Activities[model.Cluesmaster-model.ActivityOffset].Score),
-			),
-			Inline: true,
-		},
-	)
-	return embed
-}
-
-func (hs *Hiscore) GenerateBossEmbed() (embed *discordgo.MessageEmbed) {
-	embed = &discordgo.MessageEmbed{
-		Author: &discordgo.MessageEmbedAuthor{
-			Name: *hs.GetFriendlyUsername(),
-			URL:  *GetFriendlyHiscoresUrl(&hs.Username),
-		},
-		Timestamp: time.Now().Format(time.RFC3339),
-		Footer: &discordgo.MessageEmbedFooter{
-			Text: "osrs.cx",
-		},
-		Color: 0x00FF00,
-	}
-
-	embed.Fields = append(embed.Fields,
-		&discordgo.MessageEmbedField{
-			Name: "\u200b",
-			Value: fmt.Sprintf(
-				"**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d",
-				model.GetHiscoreName(model.Sire), hs.Activities[model.Sire-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Hydra), hs.Activities[model.Hydra-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Barrows), hs.Activities[model.Barrows-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Bryophyta), hs.Activities[model.Bryophyta-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Callisto), hs.Activities[model.Callisto-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Xeric), hs.Activities[model.Xeric-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Xericchallenge), hs.Activities[model.Xericchallenge-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Chaoselemental), hs.Activities[model.Chaoselemental-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Chaosfanatic), hs.Activities[model.Chaosfanatic-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Zilyana), hs.Activities[model.Zilyana-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Corporealbeast), hs.Activities[model.Corporealbeast-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Crazyarchaeologist), hs.Activities[model.Crazyarchaeologist-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Dkprime), hs.Activities[model.Dkprime-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Dkrex), hs.Activities[model.Dkrex-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Dksupreme), hs.Activities[model.Dksupreme-model.ActivityOffset].Score,
-			),
-			Inline: true,
-		},
-		&discordgo.MessageEmbedField{
-			Name: "\u200b",
-			Value: fmt.Sprintf(
-				"**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d",
-				model.GetHiscoreName(model.Derangedarchaeologist), hs.Activities[model.Derangedarchaeologist-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Graardor), hs.Activities[model.Graardor-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Mole), hs.Activities[model.Mole-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Grotesqueguardians), hs.Activities[model.Grotesqueguardians-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Hespori), hs.Activities[model.Hespori-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Kalphitequeen), hs.Activities[model.Kalphitequeen-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Kingblackdragon), hs.Activities[model.Kingblackdragon-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Kraken), hs.Activities[model.Kraken-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Kreearra), hs.Activities[model.Kreearra-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Kril), hs.Activities[model.Kril-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Mimic), hs.Activities[model.Mimic-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Nightmare), hs.Activities[model.Nightmare-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Obor), hs.Activities[model.Obor-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Sarachnis), hs.Activities[model.Sarachnis-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Scorpia), hs.Activities[model.Scorpia-model.ActivityOffset].Score,
-			),
-			Inline: true,
-		},
-		&discordgo.MessageEmbedField{
-			Name: "\u200b",
-			Value: fmt.Sprintf(
-				"**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n",
-				model.GetHiscoreName(model.Skotizo), hs.Activities[model.Skotizo-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Gauntlet), hs.Activities[model.Gauntlet-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Corruptedgauntlet), hs.Activities[model.Corruptedgauntlet-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Theatreofblood), hs.Activities[model.Theatreofblood-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Thermonucleardevil), hs.Activities[model.Thermonucleardevil-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Tzkalzuk), hs.Activities[model.Tzkalzuk-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Tztokjad), hs.Activities[model.Tztokjad-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Venenatis), hs.Activities[model.Venenatis-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Vetion), hs.Activities[model.Vetion-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Vorkath), hs.Activities[model.Vorkath-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Wintertodt), hs.Activities[model.Wintertodt-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Zulcano), hs.Activities[model.Zulcano-model.ActivityOffset].Score,
-				model.GetHiscoreName(model.Zulrah), hs.Activities[model.Zulrah-model.ActivityOffset].Score,
 			),
 			Inline: true,
 		},
