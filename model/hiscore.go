@@ -7,16 +7,16 @@ type HiscoreSkill struct {
 	Experience int
 }
 
-type HiscoreMinigame struct {
+type HiscoreActivity struct {
 	Name  string
 	Rank  int
 	Score int
 }
 
 type Hiscore struct {
-	Username  string
-	Skills    []HiscoreSkill
-	Minigames []HiscoreMinigame
+	Username   string
+	Skills     []HiscoreSkill
+	Activities []HiscoreActivity
 }
 
 const (
@@ -29,45 +29,90 @@ const (
 )
 
 const (
-	Overall       = 0
-	Attack        = 1
-	Defence       = 2
-	Strength      = 3
-	Hitpoints     = 4
-	Ranged        = 5
-	Prayer        = 6
-	Magic         = 7
-	Cooking       = 8
-	Woodcutting   = 9
-	Fletching     = 10
-	Fishing       = 11
-	Firemaking    = 12
-	Crafting      = 13
-	Smithing      = 14
-	Mining        = 15
-	Herblore      = 16
-	Agility       = 17
-	Thieving      = 18
-	Slayer        = 19
-	Farming       = 20
-	Runecraft     = 21
-	Hunter        = 22
-	Construction  = 23
-	Bhhunter      = 24
-	Bhrogue       = 25
-	Lmsrank       = 26
-	Cluesall      = 27
-	Cluesbeginner = 28
-	Clueseasy     = 29
-	Cluesmedium   = 30
-	Clueshard     = 31
-	Clueselite    = 32
-	Cluesmaster   = 33
-	Offset        = Bhhunter
+	Overall = iota
+	Attack
+	Defence
+	Strength
+	Hitpoints
+	Ranged
+	Prayer
+	Magic
+	Cooking
+	Woodcutting
+	Fletching
+	Fishing
+	Firemaking
+	Crafting
+	Smithing
+	Mining
+	Herblore
+	Agility
+	Thieving
+	Slayer
+	Farming
+	Runecraft
+	Hunter
+	Construction
+	League
+	Bhhunter
+	Bhrogue
+	Cluesall
+	Cluesbeginner
+	Clueseasy
+	Cluesmedium
+	Clueshard
+	Clueselite
+	Cluesmaster
+	Lmsrank
+	Sire
+	Hydra
+	Barrows
+	Bryophyta
+	Callisto
+	Cerberus
+	Xeric
+	Xericchallenge
+	Chaoselemental
+	Chaosfanatic
+	Zilyana
+	Corporealbeast
+	Crazyarchaeologist
+	Dkprime
+	Dkrex
+	Dksupreme
+	Derangedarchaeologist
+	Graardor
+	Mole
+	Grotesqueguardians
+	Hespori
+	Kalphitequeen
+	Kingblackdragon
+	Kraken
+	Kreearra
+	Kril
+	Mimic
+	Nightmare
+	Obor
+	Sarachnis
+	Scorpia
+	Skotizo
+	Gauntlet
+	Corruptedgauntlet
+	Theatreofblood
+	Thermonucleardevil
+	Tzkalzuk
+	Tztokjad
+	Venenatis
+	Vetion
+	Vorkath
+	Wintertodt
+	Zulcano
+	Zulrah
+	ActivityOffset = League
+	BossOffset     = Sire
 )
 
 func GetHiscoreName(index int) (name string) {
-
 	switch index {
 	case Overall:
 		return "Overall"
@@ -137,14 +182,100 @@ func GetHiscoreName(index int) (name string) {
 		return "Clues/Master"
 	case Lmsrank:
 		return "LMS/Rank"
+	case Sire:
+		return "Abyssal Sire"
+	case Hydra:
+		return "Alchemical Hydra"
+	case Barrows:
+		return "Barrows Chests"
+	case Bryophyta:
+		return "Bryophyta"
+	case Callisto:
+		return "Callisto"
+	case Cerberus:
+		return "Cerberus"
+	case Xeric:
+		return "Chambers of Xeric"
+	case Xericchallenge:
+		return "Chambers of Xeric: Challenge Mode"
+	case Chaoselemental:
+		return "Chaos Elemental"
+	case Chaosfanatic:
+		return "Chaos Fanatic"
+	case Zilyana:
+		return "Commander Zilyana"
+	case Corporealbeast:
+		return "Corporeal Beast"
+	case Crazyarchaeologist:
+		return "Crazy Archaeologist"
+	case Dkprime:
+		return "Dagannoth Prime"
+	case Dkrex:
+		return "Dagannoth Rex"
+	case Dksupreme:
+		return "Dagannoth Supreme"
+	case Derangedarchaeologist:
+		return "Deranged Archaeologist"
+	case Graardor:
+		return "General Graardor"
+	case Mole:
+		return "Giant Mole"
+	case Grotesqueguardians:
+		return "Grotesque Guardians"
+	case Hespori:
+		return "Hespori"
+	case Kalphitequeen:
+		return "Kalphite Queen"
+	case Kingblackdragon:
+		return "King Black Dragon"
+	case Kraken:
+		return "Kraken"
+	case Kreearra:
+		return "Kree'arra"
+	case Kril:
+		return "K'ril Tsutsaroth"
+	case Mimic:
+		return "Mimic"
+	case Nightmare:
+		return "Nightmare"
+	case Obor:
+		return "Obor"
+	case Sarachnis:
+		return "Sarachnis"
+	case Scorpia:
+		return "Scorpia"
+	case Skotizo:
+		return "Skotizo"
+	case Gauntlet:
+		return "The Gauntlet"
+	case Corruptedgauntlet:
+		return "The Corrupted Gauntlet"
+	case Theatreofblood:
+		return "Theatre of Blood"
+	case Thermonucleardevil:
+		return "Thermonuclear Smoke Devil"
+	case Tzkalzuk:
+		return "TzKal-Zuk"
+	case Tztokjad:
+		return "TzTok-Jad"
+	case Venenatis:
+		return "Venenatis"
+	case Vetion:
+		return "Vet'ion"
+	case Vorkath:
+		return "Vorkath"
+	case Wintertodt:
+		return "Wintertodt"
+	case Zulcano:
+		return "Zulcano"
+	case Zulrah:
+		return "Zulrah"
 	default:
 		return "Error"
 	}
-
 }
 
 func GetHiscoreEmoji(index int) (emoji string) {
-
 	switch index {
 	case Overall:
 		return "<:stats:529107862316908564>"
