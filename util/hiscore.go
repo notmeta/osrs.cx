@@ -116,7 +116,6 @@ func (hs *Hiscore) GenerateHiscoresEmbed() (embed *discordgo.MessageEmbed) {
 			Inline: true,
 		},
 	)
-
 	return embed
 }
 
@@ -137,7 +136,7 @@ func (hs *Hiscore) GenerateBossEmbed() (embed *discordgo.MessageEmbed) {
 		&discordgo.MessageEmbedField{
 			Name: "\u200b",
 			Value: fmt.Sprintf(
-				"%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d",
+				"**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d",
 				model.GetHiscoreName(model.Sire), hs.Activities[model.Sire-model.ActivityOffset].Score,
 				model.GetHiscoreName(model.Hydra), hs.Activities[model.Hydra-model.ActivityOffset].Score,
 				model.GetHiscoreName(model.Barrows), hs.Activities[model.Barrows-model.ActivityOffset].Score,
@@ -159,7 +158,7 @@ func (hs *Hiscore) GenerateBossEmbed() (embed *discordgo.MessageEmbed) {
 		&discordgo.MessageEmbedField{
 			Name: "\u200b",
 			Value: fmt.Sprintf(
-				"%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d",
+				"**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d",
 				model.GetHiscoreName(model.Derangedarchaeologist), hs.Activities[model.Derangedarchaeologist-model.ActivityOffset].Score,
 				model.GetHiscoreName(model.Graardor), hs.Activities[model.Graardor-model.ActivityOffset].Score,
 				model.GetHiscoreName(model.Mole), hs.Activities[model.Mole-model.ActivityOffset].Score,
@@ -181,7 +180,7 @@ func (hs *Hiscore) GenerateBossEmbed() (embed *discordgo.MessageEmbed) {
 		&discordgo.MessageEmbedField{
 			Name: "\u200b",
 			Value: fmt.Sprintf(
-				"%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n",
+				"**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n**%s:** %d\n",
 				model.GetHiscoreName(model.Skotizo), hs.Activities[model.Skotizo-model.ActivityOffset].Score,
 				model.GetHiscoreName(model.Gauntlet), hs.Activities[model.Gauntlet-model.ActivityOffset].Score,
 				model.GetHiscoreName(model.Corruptedgauntlet), hs.Activities[model.Corruptedgauntlet-model.ActivityOffset].Score,
@@ -209,39 +208,30 @@ func ParseHiscore(username, result *string) (hs *Hiscore) {
 
 func ParseHiscoreLines(username *string, lines *[]string) (hs *Hiscore) {
 	hs = &Hiscore{&model.Hiscore{Username: *username}}
-
 	for i, line := range *lines {
 		if len(line) == 0 {
 			continue
 		}
-
 		name := model.GetHiscoreName(i)
-
 		if i < model.League {
 			rank, level, xp := parseSkillLine(line)
-
 			skill := model.HiscoreSkill{
 				Name:       name,
 				Rank:       max(0, rank),
 				Level:      max(0, level),
 				Experience: max(0, xp),
 			}
-
 			hs.Skills = append(hs.Skills, skill)
 		} else {
 			rank, score := parseMinigameLine(line)
-
 			minigame := model.HiscoreActivity{
 				Name:  name,
 				Rank:  max(0, rank),
 				Score: max(0, score),
 			}
-
 			hs.Activities = append(hs.Activities, minigame)
 		}
-
 	}
-
 	return hs
 }
 
@@ -262,20 +252,16 @@ func GetFriendlyHiscoresUrl(username *string) *string {
 
 func parseSkillLine(line string) (rank, level, xp int) {
 	split := strings.Split(line, ",")
-
 	rank, _ = strconv.Atoi(split[0])
 	level, _ = strconv.Atoi(split[1])
 	xp, _ = strconv.Atoi(split[2])
-
 	return rank, level, xp
 }
 
 func parseMinigameLine(line string) (rank, score int) {
 	split := strings.Split(line, ",")
-
 	rank, _ = strconv.Atoi(split[0])
 	score, _ = strconv.Atoi(split[1])
-
 	return rank, score
 }
 
@@ -284,6 +270,5 @@ func CalculateCombatLevel(hs *Hiscore) float64 {
 	melee := 0.325 * float64(hs.Skills[model.Attack].Level+hs.Skills[model.Strength].Level)
 	ranged := 0.325 * float64((hs.Skills[model.Ranged].Level/2)+hs.Skills[model.Ranged].Level)
 	magic := 0.325 * float64((hs.Skills[model.Magic].Level/2)+hs.Skills[model.Magic].Level)
-
 	return base + (math.Max(melee, math.Max(magic, ranged)))
 }
